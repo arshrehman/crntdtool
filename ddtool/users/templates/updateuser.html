@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+
+{% block title %}
+ECSA
+{% endblock %}
+{% block content %}
+
+
+<div class="container" style="padding-top:10px;">
+
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+
+                {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+
+                {% endif %}
+                {% endwith %}
+
+</div>
+<div class="container" style="padding-top:10px;">
+
+<form method="POST" action="">
+       {{ form.hidden_tag() }}
+
+    <div class="form-floating mb-3">
+            {{form.username(class="form-control", placeholder="UserName")}}
+            {{ form.username.label()}}
+            <ul class="errors">
+              {% for error in form.username.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul>
+          </div>
+
+        <div class="form-floating mb-3">
+          {{form.password(class="form-control", placeholder="Password")}}
+          {{ form.password.label()}}
+          <ul class="errors">
+            {% for error in form.password.errors %}
+                  <li>{{error}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+
+    <div class="form-floating mb-3">
+          {{form.hrmsid(class="form-control", placeholder="HRMSID")}}
+            {{ form.hrmsid.label()}}
+          <ul class="errors">
+            {% for error in form.password.errors %}
+                  <li>{{error}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        {% if current_user.userlevel == "5" %}
+        <div class="form-floating mb-3">
+          {{form.department(class="form-control")}}
+            {{ form.department.label()}}
+            <ul class="errors">
+            {% for error in form.location.errors %}
+                  <li>{{error}}</li>
+            {% endfor %}
+          </ul>
+    </div>
+ {% endif %}
+
+    <div class="form-floating mb-3">
+          {{form.name(class="form-control", placeholder="name")}}
+        {{ form.name.label()}}
+          <ul class="errors">
+            {% for error in form.name.errors %}
+                  <li>{{error}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+    <div class="form-floating mb-3">
+          {{form.bankcode(class="form-control", placeholder="name")}}
+        {{ form.bankcode.label()}}
+          <ul class="errors">
+            {% for error in form.bankcode.errors %}
+                  <li>{{error}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="form-floating mb-3">
+          {{form.tlhrmsid(class="form-control", placeholder="tlhrmsid")}}
+            {{ form.tlhrmsid.label()}}
+          <ul class="errors">
+            {% for error in form.tlhrmsid.errors %}
+                  <li>{{error}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+
+        <div class="form-floating mb-3">
+          {{form.tlname(class="form-control", placeholder="tlname")}}
+            {{ form.tlname.label()}}
+          <ul class="errors">
+            {% for error in form.tlhrmsid.errors %}
+                  <li>{{error}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+    {% if current_user.userlevel == "5" %}
+    <div class="form-floating mb-3">
+          {{form.crdntrhrmsid(class="form-control", placeholder="crdntrhrmsid")}}
+        {{ form.crdntrhrmsid.label()}}
+          <ul class="errors">
+            {% for error in form.crdntrhrmsid.errors %}
+                  <li>{{error}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+    {% endif %}
+
+
+         <div class="form-floating mb-3">
+          {{form.manager(class="form-control", placeholder="ManagerName")}}
+             {{ form.manager.label()}}
+          <ul class="errors">
+            {% for error in form.manager.errors %}
+                  <li>{{error}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+    <div class="form-floating mb-3">
+          {{form.mngrhrmsid(class="form-control", placeholder="mngrhrmsid")}}
+            {{ form.mngrhrmsid.label()}}
+            <ul class="errors">
+            {% for error in form.mngrhrmsid.errors %}
+                  <li>{{error}}</li>
+            {% endfor %}
+          </ul>
+    </div>
+
+
+    <div class="form-floating mb-3">
+          {{form.location(class="form-control", placeholder="location")}}
+        {{ form.location.label()}}
+            <ul class="errors">
+            {% for error in form.location.errors %}
+                  <li>{{error}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+
+        {% if current_user.userlevel == "5" %}
+          <div class="form-floating mb-3">
+          {{form.usergroup(class="form-control", placeholder="group")}}
+              {{ form.usergroup.label()}}
+            <ul class="errors">
+            {% for error in form.usergroup.errors %}
+                  <li>{{error}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+    {% endif %}
+
+
+        <div class="container text-center" style="padding-bottom:10px">
+        {{form.CreateUser(class="btn btn-primary btn-lg btn-block")}}
+        </div>
+
+    </form></div>
+{% endblock %}

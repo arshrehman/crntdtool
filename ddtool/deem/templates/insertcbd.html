@@ -1,0 +1,630 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+ECSA
+{% endblock %}
+
+{% block javascripts %} 
+<script>
+
+function classchange(){
+  let current_url = window.location.href
+  if (current_url.includes('updatedeem')){
+    document.querySelectorAll(".form-control").forEach(dv => dv.parentElement.classList.add('is-filled'))
+    }}
+
+
+window.addEventListener('load', function(){
+  let crurl = window.location.href
+  if (crurl.includes('update')){
+    let aldvs = document.querySelectorAll(".form-control")
+    console.log(aldvs[1].value)
+    let ar5 = Array.from(aldvs)
+    ar5.splice(0, 1)
+    ar5.forEach(function(dv){ if (dv.value==''){ 
+      dv.parentElement.classList.add('is-invalid')
+    }
+  else{
+    dv.parentElement.classList.add('is-filled')
+  }})
+}})
+
+function dhm() 
+{ let n="Loan"
+  let d = document.getElementById("product_type")
+  let c = document.getElementById("product_name")
+  d.parentElement.classList.remove("is-invalid")
+  d.parentElement.classList.add('is-filled')	
+ if (d.value==n) {
+     for(var i=4; i; i--){
+         let j=0
+         c.options.remove(j)
+        }
+     c.parentElement.classList.remove("is-invalid")   
+     c.parentElement.classList.add('is-filled')   
+     return c.innerHTML='<option value = "NotApplicable">NotApplicable</option>'}
+     else { c.innerHTML='<option value = "Platinum">Platinum</option>'+
+     '<option value = "Titanium">Titanium</option>'+
+     '<option value = "World">World</option>';
+     c.parentElement.classList.add('is-filled') }
+}
+
+function slct(){
+  let accnt = document.getElementById("bankingwith");
+  accnt.parentElement.classList.remove('is-invalid');
+  accnt.parentElement.classList.add('is-filled');
+}
+
+function slct2(){
+  let cmpny = document.getElementById("ale_status");
+  cmpny.parentElement.classList.remove("is-invalid")
+  cmpny.parentElement.classList.add('is-filled');
+  document.getElementById('contactoffice').type='number';
+}
+
+
+function slct3(){
+  let ntl = document.getElementById("nationality");
+  ntl.parentElement.classList.remove("is-invalid")
+  ntl.parentElement.classList.add('is-filled');
+  }
+
+function vldty2(i){
+  if ((i.value=='')||(i.value=="Please Select")){
+    i.parentElement.classList.add('is-invalid')
+    i.focus();
+    event.preventDefault()
+  }
+  //else if(i.parentElement.classList.contains('is-invalid')){
+    //i.focus();
+    //event.preventDefault();
+  //}
+  else{
+    i.addEventListener('onchange', function(){i.parentElement.classList.remove('is-invalid')})
+    i.parentElement.classList.remove('is-invalid')
+  }
+}
+
+function vldty(){
+  let b = document.getElementsByClassName("form-control")
+  let ar = Array.from(b)
+  ar.splice(0,1)
+  ar.forEach(x => vldty2(x))
+}
+
+
+document.querySelectorAll(".form-control").forEach( 
+      function(el){
+           el.addEventListener('keydown', function() {
+               el.parentElement.classList.remove('is-invalid');
+           })
+      }
+)
+
+let cmslct = document.getElementById("ale_status")
+//mobile validation
+
+function vldmbl(){
+  let xnj3 = document.getElementById("er_mobile")
+  let txt3 = document.getElementById("mobile").value
+  if ((txt3.slice(0,2)!="05")||(txt3.length!=10)){
+    xnj3.innerText="*invalid mobile"
+    xnj3.parentElement.classList.add("is-invalid")
+  } else {
+    xnj3.innerText=""
+    xnj3.parentElement.classList.remove("is-invalid")
+  }
+
+}
+
+// email validation
+
+function isValidEmail(email) {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailRegex.test(email);
+}
+
+function vldemail(){
+  let eml = document.getElementById("customer_email").value
+  let dml = document.getElementById("er_email")
+  if (!isValidEmail(eml)){
+    dml.innerText="*invalid email"
+    dml.parentElement.classList.add('is-invalid')
+  }
+  else{
+    dml.innerText=''
+    dml.parentElement.classList.remove('is-inavlid')
+  }
+}
+
+// salary validation
+function erslry(){
+  let dvslry=document.getElementById('er_salary')
+  let slrin=document.getElementById("salary").value
+  if (slrin<5000){
+    dvslry.innerText="*salary must be above 5000"
+    dvslry.parentElement.classList.add('is-invalid')
+  }
+  else{
+    dvslry.innerText=''
+    dvslry.parentElement.classList.remove('is-invalid')
+  }
+}
+
+// Eid validation
+function vldeid(){
+  let divemid = document.getElementById("er_eid")
+  let emid = document.getElementById("emirates_id").value
+  if ((emid.slice(0,3)!="784")||(emid.length!=15)){
+    divemid.innerText="*invalid emiratesid"
+    divemid.parentElement.classList.add("is-invalid")
+  } else {
+    divemid.innerText=""
+    divemid.parentElement.classList.remove("is-invalid")
+  }
+
+}
+
+
+// iban validation
+
+function vldiban(){
+  let diviban = document.getElementById("er_iban")
+  let ibandiv = document.getElementById("iban").value
+  if ((ibandiv.toUpperCase().slice(0,2)!="AE")||(ibandiv.length!=23)){
+    diviban.innerText="*invalid IBAN"
+    diviban.parentElement.classList.add("is-invalid")
+  } else {
+    diviban.innerText=""
+    diviban.parentElement.classList.remove("is-invalid")
+  }
+
+}
+
+
+//uploaded file validation
+
+function upload3(){
+  let upfile = document.getElementById("attachment")
+  let divfile = document.getElementById("er_file")
+  let filelst = upfile.files
+  if (filelst.length!=2){
+    divfile.innerText="*upload 2 images front/back emirates id"
+    divfile.parentElement.classList.add("is-invalid")
+  }
+  else if (filelst.length==2){
+    let file1 = filelst[0].name.split(".")[1]
+    let file2 = filelst[1].name.split(".")[1]
+    const alwdary = ['png', 'jpg', 'gif', 'jpeg']
+    if ((alwdary.includes(file1)&&(alwdary.includes(file2)))){
+      divfile.innerText=''
+      divfile.parentElement.classList.remove('is-invalid')
+    }
+    else{
+      divfile.innerText="*invalid format"
+      divfile.parentElement.classList.add("is-invalid")
+    }
+  }
+  else{
+    
+  }
+}
+// valid joiningdate
+function vldjngdt(){
+  let jngdt = document.getElementById("joiningdate")
+  jngdt.classList.remove('is-invalid')
+}
+
+// valid bank code
+async function vldbnkcode(){
+  let bancodearray = [];
+  let bnkcodetxt = document.getElementById("bankcode").value
+  let divbnkcode = document.getElementById("er_bnkcode")
+  
+    const response = await fetch('data')
+    const data = await response.json()
+    for (var i=0; i<data.length; i++){ bancodearray.push(data[i])}
+  let arnu = Array.from(bancodearray.toString().split(","))  
+  if (arnu.includes(bnkcodetxt)){
+    divbnkcode.innerText=''
+    divbnkcode.parentElement.classList.remove('is-invalid')
+  }
+  else{
+    divbnkcode.innerText="*invalid bankcode"
+    divbnkcode.parentElement.classList.add('is-invalid')
+  }
+}
+</script>    
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+
+                {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert"  style="margin-top:50px; color: beige;">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+
+                {% endif %}
+                {% endwith %}
+
+</div>
+
+<div class="container text-center" style="background-color:#e8f4f8; height:50px; padding:10px; margin-bottom:5px">
+    <span><p style="font-weight: bold;">Enter customer details for {{current_user.bankname}} application</p></span>
+</div>
+<div class="container" style="background-color:#f5f5f5; padding-top:10px;">
+<form method="POST" {% if request.path=="/insertdeem" %} action=/insertdeem {% elif request.path=="/updatedeem/{{id}}" %} action="/updatedeem/{{id}}" {% endif %}  enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+    
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            <div class="input-group input-group-outline" style="margin-bottom: 5px;">
+            {{form.customer_name(class="form-control")}}
+            {{ form.customer_name.label(class="form-label")}}
+            <div class="container"><ul class="errors">
+              {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul></div>
+        </div></div>
+
+    {% if (request.path =="/insertdeem") or (current_user.userlevel=="4") %}
+    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+      <div class="input-group input-group-outline" style="margin-bottom: 5px;">
+            {{form.mobile(class="form-control", onblur="vldmbl()")}}
+            {{ form.mobile.label(class="form-label")}}
+            <div class="container", id="er_mobile"><ul class="errors">
+              {% for error in form.mobile.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul></div>
+        </div></div>
+    {% endif %}
+
+
+    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+      <div class="input-group input-group-outline" style="margin-bottom: 5px;">
+            {{form.customer_email(class="form-control", onblur="vldemail()")}}
+            {{ form.customer_email.label(class="form-label")}}
+            <div class="container" id="er_email"><ul class="errors">
+              {% for error in form.customer_email.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul></div>
+    </div></div>
+
+
+    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+      <div class="input-group input-group-outline" style="margin-bottom: 5px;">
+            {{form.nationality(class="form-control", onchange='slct3()')}}
+            {{ form.nationality.label(class='form-label')}}
+            <div class="container"><ul class="errors">
+              {% for error in form.nationality.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul></div>
+    </div></div>
+
+    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+      <div class="input-group input-group-outline">
+            {{form.salary(class="form-control", onblur="erslry()")}}
+            {{ form.salary.label(class='form-label')}}
+            <div class="container" id="er_salary"><ul class="errors">
+              {% for error in form.salary.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul></div>
+    </div></div>
+
+    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+      <div class="input-group input-group-outline" style="margin-bottom: 5px;">
+            {{form.company(class="form-control")}}
+            {{ form.company.label(class='form-label')}}
+            <div class="container"><ul class="errors">
+              {% for error in form.company.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul></div>
+    </div></div>
+
+    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+      <div class="input-group input-group-outline">
+           {{form.ale_status(class="form-control", onchange='slct2()')}}
+            {{ form.ale_status.label(class="form-label")}}
+            <div class="container"><ul class="errors">
+              {% for error in form.ale_status.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul></div>
+    </div></div>  
+    
+
+    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+      <div class="input-group input-group-outline" style="margin-bottom: 5px;">
+      {{form.contactoffice(class="form-control")}}
+      {{ form.contactoffice.label(class="form-label")}}
+      <div class="container"><ul class="errors">
+        {% for error in form.length_of_residence.errors %}
+            <li>{{error}}</li>
+        {% endfor %}
+      </ul></div>
+    </div></div>
+    
+
+    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+      <div class="input-group input-group-outline" style="margin-bottom: 5px; 
+      align-content: flex-end; text-align: right;">
+            {{form.joiningdate(class="form-control", onchange='vldjngdt()')}}
+            {{ form.joiningdate.label(class='form-label')}} 
+            <div class="container"><ul class="errors">
+              {% for error in form.joiningdate.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul></div>
+    </div></div>
+
+    
+    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+      <div class="input-group input-group-outline" style="margin-bottom: 5px;">
+            {{form.designation(class="form-control")}}
+            {{ form.designation.label(class="form-label")}}
+            <div class="container"><ul class="errors">
+              {% for error in form.designation.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul></div>
+    </div></div>
+
+    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+      <div class="input-group input-group-outline" style="margin-bottom: 5px;">
+            {{form.emirates_id(class="form-control", onblur="vldeid()")}}
+            {{ form.emirates_id.label(class="form-label")}}
+            <div class="container" id="er_eid"><ul class="errors">
+              {% for error in form.emirates_id.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul></div>
+    </div></div>
+
+    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+      <div class="input-group input-group-outline" style="margin-bottom: 5px;">
+            {{form.passport_number(class="form-control", maxlength="10")}}
+            {{ form.passport_number.label(class="form-label")}}
+            <div class="container"><ul class="errors">
+              {% for error in form.passport_number.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul></div>
+    </div></div>
+    
+  {% if current_user.userlevel != "1" %}  
+  <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+    <div class="input-group input-group-outline" style="margin-bottom: 5px;">
+    {{form.bank_reference(class="form-control")}}
+    {{ form.bank_reference.label(class="form-label")}}
+    <div class="container"><ul class="errors">
+      {% for error in form.bank_reference.errors %}
+          <li>{{error}}</li>
+      {% endfor %}
+    </ul></div>
+</div></div>{% endif %}
+
+<div class="ms-md-auto pe-md-3 d-flex align-items-center">
+  <div class="input-group input-group-outline" style="margin-bottom: 5px;">
+  {{form.iban(class="form-control", onblur="vldiban()")}}
+  {{ form.iban.label(class="form-label")}}
+  <div class="container", id="er_iban"><ul class="errors">
+    {% for error in form.iban.errors %}
+        <li>{{error}}</li>
+    {% endfor %}
+  </ul></div>
+</div></div>
+
+
+
+
+  
+<div class="ms-md-auto pe-md-3 d-flex align-items-center">
+  <div class="input-group input-group-outline" style="margin-bottom: 5px; 
+  align-content: flex-end; text-align: right;">
+        {{form.bankingwith(class="form-control", onchange="slct()")}}
+        {{form.bankingwith.label(class="form-label")}}
+        <div class="container"><ul class="errors">
+          {% for error in form.bankingwith.errors %}
+              <li>{{error}}</li>
+          {% endfor %}
+        </ul></div>
+</div></div>
+
+
+<div class="ms-md-auto pe-md-3 d-flex align-items-center">
+  <div class="input-group input-group-outline">
+            {{form.product_type(class="form-control", onchange="dhm()")}}
+            {{ form.product_type.label(class="form-label")}}
+            <div class="container"><ul class="errors">
+              {% for error in form.product_type.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul></div>
+        </div></div>
+
+        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+          <div class="input-group input-group-outline">
+            {{form.product_name(class="form-control")}}
+            {{ form.product_name.label(class="form-label")}}
+            <div class="container"><ul class="errors">
+              {% for error in form.product_name.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul></div>
+        </div></div>
+
+        {% if current_user.userlevel !="1" %}
+        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+          <div class="input-group input-group-outline">            
+            {{form.bank_status(class="form-control")}}
+            {{ form.bank_status.label(class="form-label")}}
+            <div class="container"><ul class="errors">
+              {% for error in form.bank_status.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul></div>
+        </div></div>{% endif %}
+            <!--div class="form-floating">
+            {{form.application_type(class="form-select")}}
+            {{ form.application_type.label()}}
+            <ul class="errors">
+              {% for error in form.application_type.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul>
+        </div-->
+
+
+  <!--div class="form-floating">
+            {{form.submissiondate(class="form-select")}}
+            {{ form.submissiondate.label()}}
+            <ul class="errors">
+              {% for error in form.submissiondate.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul>
+          </div-->
+
+  <!--div class="form-floating">
+            {{form.supplementary_card(class="form-select")}}
+            {{ form.supplementary_card.label()}}
+            <ul class="errors">
+              {% for error in form.supplementary_card.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul>
+          </div-->
+
+  <!--div class="form-floating">
+            {{form.last6salaries(class="form-select")}}
+            {{ form.last6salaries.label()}}
+            <ul class="errors">
+              {% for error in form.supplementary_card.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul>
+          </div>
+
+    <div class="form-floating">
+            {{form.cbdsource(class="form-select")}}
+            {{ form.cbdsource.label()}}
+            <ul class="errors">
+              {% for error in form.cbdsource.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul>
+          </div-->
+
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            <div class="input-group input-group-outline">            
+              {% if current_user.userlevel in ["2","3","4","5"] %}
+            {{form.bookingdate(class="form-control")}}
+            {{ form.bookingdate.label(class="form-label")}}
+            <div class="container"><ul class="errors">
+              {% for error in form.bookingdate.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul></div>
+      {% endif %}
+          </div></div>
+
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            <div class="input-group input-group-outline">            
+            {% if current_user.userlevel in ["2","3","4","5"] %}
+            {{form.cpv(class="form-control")}}
+            {{ form.cpv.label(class="form-label")}}
+            <div class="container"><ul class="errors">
+              {% for error in form.cpv.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul></div>
+          {% endif %}
+</div></div>
+
+{% if current_user.bankcode == "awaiting" %}
+<div class="ms-md-auto pe-md-3 d-flex align-items-center">
+  <div class="input-group input-group-outline">            
+  {{form.bankcode(class="form-control", onblur="vldbnkcode()")}}
+  {{ form.bankcode.label(class="form-label")}}
+  <div class="container" id = "er_bnkcode">
+    <ul class="errors">
+    {% for error in form.bankcode.errors %}
+        <li>{{error}}</li>
+    {% endfor %}
+  </ul></div>
+</div></div>
+{% endif %}
+
+{% if (current_user.userlevel =="1") and (request.path=='/insertdeem') %}
+<div class="ms-md-auto pe-md-3 d-flex align-items-center">
+  <div class="input-group input-group-outline">            
+  {{form2.attachment(class="form-control", onchange="upload3()")}}
+  <div class="container" id="er_file">
+    <ul class="errors">
+    {% for error in form2.attachment.errors %}
+        <li>{{error}}</li>
+    {% endfor %}
+  </ul></div>
+</div></div>{% endif %}
+
+<div class="ms-md-auto pe-md-3 d-flex align-items-center">
+  <div class="input-group input-group-outline">            
+  {{form.remarks(class="form-control")}}
+  {{ form.remarks.label(class="form-label")}}
+  <div class="container" id = "er_remarks">
+    <ul class="errors">
+    {% for error in form.remarks.errors %}
+        <li>{{error}}</li>
+    {% endfor %}
+  </ul></div>
+</div></div>
+
+       <div class="container text-center align-items-center" style="padding-bottom:10px">
+            {{form.submit(class="btn btn-success btn-lg btn-block", onclick="vldty()")}}
+       </div>
+</form></div>
+
+<style>
+  .form-floating{
+    margin-right: 30px;
+  }
+  .errors{
+    color: red;
+    text-align: left;
+    align-self: flex-end;
+    font-size: smaller;
+    align-content: baseline;
+  }
+  #er_mobile, #er_email, #er_salary, #er_eid, #er_iban, #er_file, #er_bnkcode{
+    align-items: flex-start;
+    font-size: xx-small;
+    font-weight: 100;
+    align-content: baseline;
+    color: red;
+    text-align: -webkit-right;
+  }
+  ul li{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin-left: 0%;
+  }
+  ms-md-auto pe-md-3 d-flex align-items-center{
+    margin-bottom: 0px;
+  }
+</style>
+
+{% endblock %}

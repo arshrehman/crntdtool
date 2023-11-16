@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %} ECSA {% endblock %}
+
+{% block content %}
+<style>
+    body {
+    padding-top:25px;
+    }
+</style>
+
+<div class="container">
+
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+
+                {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+
+                {% endif %}
+                {% endwith %}
+
+</div>
+
+
+
+<div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative">
+            <div class="bg-gradient shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #E3B448;">
+              <div class="bg-gradient border-radius-lg pt-4 pb-3" style="background-color: #E3B448;">
+              <h6 class="text-black text-capitalize ps-3">Your Submissions</h6>
+            </div>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Agent</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
+                    <th class="text-secondary opacity-7"></th>
+                    <th class="text-secondary opacity-7"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for row in record2 %}
+
+                <tr>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <!--div>
+                          <img src="/static/assets/img/record.jpeg" class="avatar avatar-xs me-3 border-radius-lg" alt="user1">
+                        </div-->
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">{{str(row.customer_name).capitalize()}}</h6>
+                          <p class="text-xs text-secondary mb-0">{{row.mobile}}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <p class="text-xs font-weight-bold mb-0">{{str(row.agent_name).capitalize()}}</p>
+                      <p class="text-xs text-secondary mb-0">{{row.hrmsID}}</p>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-secondary text-xs font-weight-bold">{{datetime.date(row.entry_date)}}</span>
+                    </td>
+
+                    <td class="align-middle text-center text-sm" style="color:black">
+                      <span class="badge success" style="color: black; text-transform: capitalize;">{{row.bank_status}}</span>
+                    </td>
+
+                    
+                    <td class="align-middle">
+                      <td class="align-middle">
+                        {% if str(row.leadid[-4:])=="DEEM" %}
+                      <a href="{{url_for('deem.updatedeem', id=row.id)}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        Edit
+                      </a>
+                        {% elif row.bank_name == "ENBD" %}
+                      <a href="/update/{{row.id}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        Edit
+                      </a>
+                        {% elif row.bank_name == "ADCB" %}
+                      <a href="/updateadcb/{{row.id}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        Edit
+                      </a>
+                        {% elif row.bank_name =="SCB" %}
+                      <a href="/updatescb/{{row.id}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        Edit
+                      </a>
+                        {% elif row.bank_name in ["CBD", "ALL"] %}
+                      <a href="/updatecbd/{{row.id}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        Edit
+                      </a>
+
+                    {% elif row.bank_name in ["RAK"] %}
+                      <a href="/updaterak/{{row.id}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        Edit
+                      </a>
+                        {% endif %}
+                    </td>
+                    <td class="align-middle">
+                   {% if current_user.userlevel == "5" %}
+                    <a onclick="checker()" href="/delete/{{row.id}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">Delete</a>
+                   {% endif %}
+                    </td>
+                    {% if current_user.userlevel=="4" %}
+                    <td class="align-middle">
+                      <a href="{{url_for('deem.eid', id=row.id)}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        Download
+                      </a>
+                    </td>{% endif %}
+                </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<script>
+function checker() {
+        var result = confirm("Are you sure of deleting this record?");
+        if (result==false) {
+            event.preventDefault();
+            }
+        }
+</script>
+{% endblock %}

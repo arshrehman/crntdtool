@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block content %}
+<style>
+    body {
+    padding-top:25px;
+    }
+</style>
+
+<div class="container">
+
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+
+                {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+
+                {% endif %}
+                {% endwith %}
+
+</div>
+
+<div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative"  style="background-color:#A24857;">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+              <h6 class="text-black text-capitalize ps-3">Your Submissions</h6>
+            </div>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Company</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Salary</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Agent</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                    <th class="text-secondary opacity-7"></th>
+                    <th class="text-secondary opacity-7"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for row in record %}
+
+                <tr {% if row.bank_status=="Reinstate" %} style="background-color:#B2BABB;" {% endif %}>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <!--div>
+                          <img src="/static/assets/img/record.jpeg" class="avatar avatar-xs me-3 border-radius-lg" alt="user1">
+                        </div-->
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">{{str(row.customer_name).capitalize()}}</h6>
+                          <p class="text-xs text-secondary mb-0">{{row.customer_email}}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="badge text-bg-success">{{row.company}}</span>
+                    </td>
+
+                    <td class="align-middle text-center text-sm">
+                        
+                      <span class="badge text-bg-success">{{row.salary}}</span>
+                       
+                    </td>
+                    {% if current_user.userlevel=="7" %}
+                    <td class="align-middle text-center">
+                      {{ user.query.filter(user.id==row.user_id).first().agent_name}}
+                    </td>
+                      {% endif %}
+                    <td class="align-middle text-center">
+                      <span class="text-secondary text-xs font-weight-bold">{{datetime.date(row.entry_date)}}</span>
+                    </td>
+                    <td class="align-middle">
+                      <a href="{{url_for('adcb_leads.adcbedit', id=row.id)}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        Edit
+                      </a>
+                        
+                    </td>
+                    {% if current_user.userlevel=="7" %}
+                    <td class="align-middle">
+                      <a href="{{url_for('adcb_leads.download3', id=row.id)}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        Download
+                      </a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,686 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='multi_step_form.css')}}" />
+<script src="{{url_for('static', filename='multi_step_form.js')}}" defer></script>
+{% endblock %}
+
+{% block title %}
+ECSA
+{% endblock %}
+
+{% block content %}
+
+<div class="container" style="margin-top:10px;">
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show text-center" role="alert" style="padding-top:20px;">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+
+    {% endif %}
+    {% endwith %}
+
+</div>
+
+<form method="POST" {% if request.path=="/adcbleads" %} action=/adcbleads {% elif request.path=="/adcbedit/{{id}}" %} action="/adcbedit/{{id}}" {% endif %} class="form" name="adcbleads" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+
+    <div class="progressbar">
+        <div class="progress" id="progress"></div>
+
+        <div
+          class="progress-step progress-step-active"
+          data-title="Primary"
+        ></div>
+        <div class="progress-step" data-title="Employment"></div>
+        <div class="progress-step" data-title="Additional"></div>
+        <div class="progress-step" data-title="Final"></div>
+      </div>
+
+<div class="form-step form-step-active">
+
+    <div class="row">
+            <div class="col-md-4">
+                <div class="form-floating mb-3">
+                        {{form.product_name(class="form-select", placeholder="Please select a product")}}
+                        {{ form.product_name.label(class="sm")}}
+                        <ul class="errors">
+                        {% for error in form.product_name.errors %}
+                        <li>{{error}}</li>
+                        {% endfor %}
+                        </ul>
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="form-floating mb-3">
+                        {{form.customer_name(class="form-control", placeholder="Please enter customer name")}}
+                        {{ form.customer_name.label(class="sm")}}
+                        <ul class="errors">
+                        {% for error in form.customer_name.errors %}
+                            <li>{{error}}</li>
+                        {% endfor %}
+                        </ul>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-floating mb-3">
+                    {{form.mobile(class="form-control", placeholder="Please enter customer name")}}
+                    {{ form.mobile.label(class="sm")}}
+                    <ul class="errors">
+                    {% for error in form.customer_name.errors %}
+                        <li>{{error}}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-floating mb-3">
+                {{form.gender(class="form-select", placeholder="gender")}}
+                {{ form.gender.label(class="sm")}}
+                <ul class="errors">
+                    {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="col-sm-4">
+            <div class="form-floating mb-3">
+                {{form.nationality(class="form-select", placeholder="Nationality")}}
+                {{ form.nationality.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="col-sm-4">
+            <div class="form-floating mb-3">
+                {{form.dob(class="form-select", placeholder="Please enter customer name")}}
+                {{ form.dob.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.passport_number(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.passport_number.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.passport_expiry(class="form-select", placeholder="Please enter customer name")}}
+                {{ form.passport_expiry.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.visa_number(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.visa_number.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-floating mb-3">
+            {{form.visa_expiry_date(class="form-control", placeholder="Please enter customer name")}}
+            {{ form.visa_expiry_date.label(class="sm")}}
+            <ul class="errors">
+              {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-floating mb-3">
+            {{form.emirates_id(class="form-control", placeholder="Please enter customer name")}}
+            {{ form.emirates_id.label(class="sm")}}
+            <ul class="errors">
+              {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-floating mb-3">
+            {{form.length_of_residence(class="form-control", placeholder="Please enter customer name")}}
+            {{ form.length_of_residence.label(class="sm")}}
+            <ul class="errors">
+              {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.marital_status(class="form-select", placeholder="Please enter customer name")}}
+                {{ form.marital_status.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.dependent(class="form-select", placeholder="Please enter customer name")}}
+                {{ form.dependent.label(class="sm")}}
+                <ul class="errors">
+                   {% for error in form.customer_name.errors %}
+                    <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.education(class="form-select", placeholder="Please enter customer name")}}
+                {{ form.education.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+        <div class="">
+          <a href="#" class="btn btn-next width-50 ml-auto", type="submit">Next</a>
+        </div>
+</div>
+
+
+<div class="form-step">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.mothername(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.mothername.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.company(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.company.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.office_emirates(class="form-select", placeholder="Please enter customer name")}}
+                {{ form.office_emirates.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.company_phone(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.company_phone.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.building(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.building.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.area(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.area.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.landmark(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.landmark.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.designation(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.designation.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.joiningdate(class="form-select", placeholder="Please enter customer name")}}
+                {{ form.joiningdate.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.department(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.department.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    <div class="col-md-4">
+        <div class="form-floating mb-3">
+            {{form.staffid(class="form-control", placeholder="Please enter customer name")}}
+            {{ form.staffid.label(class="sm")}}
+            <ul class="errors">
+              {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+            {{form.salary(class="form-control", placeholder="Please enter customer name")}}
+            {{ form.salary.label(class="sm")}}
+            <ul class="errors">
+              {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+     
+        <div class="col-md-6">
+            <div class="form-floating mb-3">
+                {{form.customer_email(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.customer_email.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+
+    <div class="col-md-6">
+        <div class="form-floating mb-3">
+            {{form.account_check(class="form-control", placeholder="Please enter customer name", onchange="accountcheck(this)")}}
+            {{ form.account_check.label(class="sm")}}
+            <ul class="errors">
+            {% for error in form.customer_name.errors %}
+              <li>{{error}}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+    <div class="btns-group">
+          <a href="#" class="btn btn-prev">Previous</a>
+          <a href="#" class="btn btn-next">Next</a>
+    </div>
+</div>
+
+
+<div class="form-step">
+    <div class="alert alert-success">
+        Please enter your home country address
+      </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.homecountryaddress(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.homecountryaddress.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.city(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.city.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.telephone(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.telephone.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-success">
+        Please enter your UAE reference details
+      </div>
+
+    <div class="row">
+        
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.reference_name(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.reference_name.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.reference_company(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.reference_company.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.reference_mobile(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.reference_mobile.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="alert alert-success">
+        Please enter your UAE address
+      </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.building2(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.building2.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+                <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.area2(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.area2.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.landmark2(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.landmark2.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <div class="row">
+
+    <div class="col-md-4">
+        <div class="form-floating mb-3">
+            {{form.flat(class="form-control", placeholder="Please enter customer name")}}
+            {{ form.flat.label(class="sm")}}
+            <ul class="errors">
+            {% for error in form.customer_name.errors %}
+              <li>{{error}}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+     <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.residence_type(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.residence_type.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                {{form.residential_emirates(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.residential_emirates.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="btns-group">
+          <a href="#" class="btn btn-prev">Previous</a>
+          <a href="#" class="btn btn-next">Next</a>
+    </div>
+</div>
+
+<div class="form-step">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-floating mb-3">
+                {{form.prefered_billing(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.prefered_billing.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-floating mb-3">
+                {{form.pickupdate(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.pickupdate.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-floating mb-3">
+                {{form.pickupaddress(class="form-control", placeholder="Please enter customer name")}}
+                {{ form.pickupaddress.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% if request.path=="/adcbleads" %}
+        <div class="col-md-6">
+            <div class="form-floating mb-3">
+                {{form.attachment3(class="form-control")}}
+                {{ form.attachment3.label(class="sm")}}
+                <ul class="errors">
+                {% for error in form.customer_name.errors %}
+                  <li>{{error}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+
+
+    </div>
+
+
+    <div class="btns-group">
+        <a href="#" class="btn btn-prev">Previous</a>
+        {{form.submit2(class="btn btn-success")}}
+  </div>
+</div>
+
+
+
+</form>
+
+
+<script>
+    var accountcheck = function(el) { // note, its html element
+  if ('Yes' !== el.value) return;
+  el.parentNode.innerHTML = "<input type=\"number\"  class=\"form-control\" placeholder=\"Enter ADCB account\" maxlength=\"30\" name='" + el.name + "' value='"+accountcheck.value+"' /><label>Enter AccountNumber</label>"
+};
+</script>
+
+{% endblock %}

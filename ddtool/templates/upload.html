@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+ECSA
+{% endblock %}
+{% block content %}
+
+<div class="container">
+
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+
+                {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+
+                {% endif %}
+                {% endwith %}
+
+</div>
+{% if current_user.bankname!="ADCB" %}
+<div class="container text-center">
+    <div class="row justify-content-around">
+        <h2><span class="badge text-bg-danger">
+            <p>Please upload only xlsx file which must have three columns leadid, status and date of booking</p>
+        </span></h2></div>
+</div>
+{% endif %}
+
+{% if (current_user.bankname =="ADCB") and (request.path=='/upload_adcb') %}
+<div class="container text-center">
+    <div class="container-fluid">
+        <h2><span class="badge text-bg-danger">
+            <p>Please upload only xlsx file which must have 6 columns agent_bankcode, customer_name, 
+                <br>company_name, appid, bank_status and remarks columns must be in this order only</p>
+        </span></h2></div>
+</div>
+{% endif %}
+
+
+{% if (current_user.bankname =="ADCB") and (request.path=='/reinstateupload') %}
+<div class="container text-center">
+    <div class="container-fluid">
+        <h2><span class="badge text-bg-danger">
+            <p>Please upload only xlsx file which must have 5 columns agent_bankcode, appid, customer_name
+                <br>company_name, and remarks columns must be in this order only</p>
+        </span></h2></div>
+</div>
+{% endif %}
+
+<div class="d-flex justify-content-center">
+<form method="POST" {% if request.path=="/upload_bankstatus" %} action="/upload_bankstatus" {% elif request.path=="/upload_reinstate" %} action="/upload_reinstate" {% endif %} enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="container m-5">
+            <div class="col-md">
+            {{form.upload(class="form-control")}}
+            <ul class="errors">
+              {% for error in form.upload.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+            </ul>
+          </div>
+
+          <div class="d-flex justify-content-center">
+            {{form.uploadfile(class="btn btn-primary")}}
+        </div>
+        </div>
+</form>
+</div>
+
+{% endblock %}
